@@ -1,18 +1,27 @@
 package org.example.dao;
 
-import java.sql.*;
-
-import org.example.bl.Util;
 import org.example.model.PersonInfo;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ClientDao extends Util {
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ClientDao  {
+    @PersistenceContext
+    private EntityManager entityManager;
     private Connection connection;
     private Logger logger;
 
-    public ClientDao() throws SQLException{
-        this.connection = getConnection();
+    public ClientDao(EntityManager manager) throws SQLException{
+        SessionImpl session = (SessionImpl) manager.unwrap(Session.class);
+        this.connection = session.connection();
         this.logger  = LoggerFactory.getLogger(ClientDao.class);
     }
 
