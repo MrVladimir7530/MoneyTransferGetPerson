@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ClientDao extends Util {
-    private Connection connection;
+
     private Logger logger;
 
     public ClientDao() throws SQLException{
-        this.connection = getConnection();
+
         this.logger  = LoggerFactory.getLogger(ClientDao.class);
     }
 
@@ -26,7 +26,7 @@ public class ClientDao extends Util {
         String SQL = "SELECT * FROM public.\"person_info\"" +
                 "Where phone = ?";
 
-        try {
+        try(Connection connection = Util.getConnection()) {
             logger.info("select personName");
             preparedStatement = connection.prepareStatement(SQL);
             preparedStatement.setString(1, phone);

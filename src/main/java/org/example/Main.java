@@ -4,7 +4,6 @@ package org.example;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
-import org.example.bl.HibernateUtil;
 import org.example.handlers.MainServlet;
 import org.example.utils.Common;
 import org.example.utils.PropertyManager;
@@ -20,7 +19,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         PropertyManager.load();
         Common.configure();
         runServer();
@@ -32,8 +30,6 @@ public class Main {
 
             }
         },"Stop Jetty Hook"));
-        session.close();
-        HibernateUtil.close();
     }
 
     public static void runServer(int port, String contextStr)
