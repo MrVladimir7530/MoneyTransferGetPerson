@@ -1,7 +1,6 @@
 package org.example.dao;
 
 import org.example.bl.HibernateUtil;
-import org.example.bl.Util;
 import org.example.model.PersonInfo;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -9,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
-public class ClientDao extends Util {
+public class ClientDao extends HibernateUtil {
 
     private Logger logger;
 
@@ -19,6 +18,7 @@ public class ClientDao extends Util {
 
     public PersonInfo getPersonId(String phone) {
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            System.out.println(session.getSession());
             PersonInfo personInfo1 = session.get(PersonInfo.class, 6);
             System.out.println(personInfo1);
             PersonInfo personInfo = session.get(PersonInfo.class, phone);
