@@ -4,11 +4,13 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EntityManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 @NoArgsConstructor
 public class Util {
+    private static EntityManager entityManager;
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/Payments";
     private static final String DB_USERNAME = "AccountTest";
     private static final String DB_PASSWORD = "1234567890";
@@ -30,5 +32,9 @@ public class Util {
 
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
+    }
+
+    public static EntityManager getEntityManager() throws SQLException {
+        return entityManager;
     }
 }

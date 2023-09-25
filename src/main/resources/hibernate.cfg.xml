@@ -8,10 +8,9 @@
     <property name="connection.driver_class">org.postgresql.Driver</property>
     <property name="connection.username">AccountTest</property>
     <property name="connection.password">1234567890</property>
-    <mapping class="org.example.model.AccountEntity"/>
-    <mapping class="org.example.model.PaymentEntity"/>
-    <mapping class="org.example.model.PersonEntity"/>
-    <mapping class="org.example.model.PersonInfoEntity"/>
+    <property name="hibernate.show_sql">true</property>
+    <mapping class="org.example.model.PersonInfo"/>
+
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
