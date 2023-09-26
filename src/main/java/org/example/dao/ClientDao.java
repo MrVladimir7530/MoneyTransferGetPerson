@@ -1,12 +1,15 @@
 package org.example.dao;
 
 import org.example.bl.HibernateUtil;
+import org.example.exceptions.ProcessException;
 import org.example.model.PersonInfo;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ClientDao extends HibernateUtil {
 
@@ -16,49 +19,23 @@ public class ClientDao extends HibernateUtil {
         this.logger = LoggerFactory.getLogger(ClientDao.class);
     }
 
-    public PersonInfo getPersonId(String phone) {
+    public PersonInfo getPersonId(String phoneNumber) {
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
-            System.out.println(session.getSession());
-            PersonInfo personInfo1 = session.get(PersonInfo.class, 6);
-            System.out.println(personInfo1);
-            PersonInfo personInfo = session.get(PersonInfo.class, phone);
-            return personInfo;
-        } catch (Throwable throwable) {
-            System.out.println("Что-то пошло не так");
+            String nql = "select p from PersonInfo p where phone = :phoneNumber";
+            Query<PersonInfo> query = session.createQuery(nql, PersonInfo.class);
+            query.setParameter("phoneNumber", phoneNumber);
+            List<PersonInfo> list = query.list();
+            if (list.size() > 1) {
+                logger.debug("This number is not unique");
+                throw new ProcessException("code", "This number is not unique", 400);
+            }
+            return list.get(0);
+
+        } catch (Exception exception) {
+            logger.debug(exception.getMessage());
             throw new RuntimeException();
-        } finally {
-            HibernateUtil.close();
         }
 
-
-//        PreparedStatement preparedStatement = null;
-//        PersonInfo personInfo = new PersonInfo();
-//
-//        String SQL = "SELECT * FROM public.\"person_info\"" +
-//                "Where phone = ?";
-//
-//        try (Connection connection = ) {
-//            logger.info("select personName");
-//            preparedStatement = connection.prepareStatement(SQL);
-//            preparedStatement.setString(1, phone);
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            while (resultSet.next()) {
-//                long id = resultSet.getLong("id");
-//                long personId = resultSet.getLong("person_id");
-//                String phoneNumber = resultSet.getString("phone");
-//                personInfo.setId(id);
-//                personInfo.setPersonId(personId);
-//                personInfo.setPhone(phoneNumber);
-//                logger.info("Successful select personName");
-//            }
-//
-//        } catch (SQLException e) {
-//            logger.info("Exception in getPersonId");
-//            throw new RuntimeException(e);
-//        }
-//        return personInfo;
     }
 
 }

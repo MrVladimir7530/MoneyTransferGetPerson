@@ -4,6 +4,7 @@ package org.example;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.example.bl.HibernateUtil;
 import org.example.handlers.MainServlet;
 import org.example.utils.Common;
 import org.example.utils.PropertyManager;
@@ -24,9 +25,7 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
-//                Session session = HibernateUtil.getSessionFactory().openSession();
-//                session.close();
-//                HibernateUtil.close();
+                HibernateUtil.close();
                 stopServer();
 
             }
