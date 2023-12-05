@@ -7,6 +7,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import org.example.handlers.MainServlet;
 import org.example.utils.Common;
 import org.example.utils.PropertyManager;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
